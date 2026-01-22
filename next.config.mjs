@@ -1,9 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export', // Wajib untuk export statis
-  basePath: '/Arah.ai.v3Nxtjs', // Harus sama persis dengan nama repo di GitHub
+  // Hapus atau komen basePath jika menggunakan Vercel
+  // basePath: '/Arah.ai.v3Nxtjs', 
+  
   images: {
-    unoptimized: true, // GitHub Pages tidak mendukung Image Optimization bawaan
+    unoptimized: true, // Bisa dihapus jika ingin Vercel mengoptimasi gambar Anda otomatis
   },
 };
 
