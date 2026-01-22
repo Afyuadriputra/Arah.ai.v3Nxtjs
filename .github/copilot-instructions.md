@@ -1,0 +1,4 @@
+- This repo is a Next.js App Router landing page.
+- Keep styling strictly monochrome: white/black/grays only.
+- Prefer Tailwind utility classes; avoid adding new dependencies unless required.
+- Keep components responsive and accessible.

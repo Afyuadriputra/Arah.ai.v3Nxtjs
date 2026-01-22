@@ -1,0 +1,14 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Tight icon-only mark (no extra canvas whitespace) -->
+  <g>
+    <!-- Shadow layers -->
+    <path d="M48 124L128 80L208 124L128 168L48 124Z" fill="#4B4B4B" opacity="0.95"/>
+    <path d="M48 112L128 68L208 112L128 156L48 112Z" fill="#6B6B6B" opacity="0.85"/>
+    <!-- Top cap -->
+    <path d="M48 100L128 56L208 100L128 144L48 100Z" fill="#0A0A0A"/>
+
+    <!-- Tassel (left) -->
+    <path d="M54 100V196" stroke="#0A0A0A" stroke-width="10" stroke-linecap="round"/>
+    <circle cx="54" cy="210" r="12" fill="#0A0A0A"/>
+  </g>
+</svg>
