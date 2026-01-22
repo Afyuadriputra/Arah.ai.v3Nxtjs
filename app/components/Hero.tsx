@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import Image from "next/image";
 import type { Locale } from "../content";
 import { getCopy } from "../content";
 
@@ -10,70 +11,160 @@ type Props = {
   onSecondaryAction?: () => void;
 };
 
+const easePremium: [number, number, number, number] = [0.2, 0.8, 0.2, 1];
+
+// --- UPDATED COMPONENT: MiniDashboardMock ---
+// Perubahan: Menambahkan animasi "Floating" dan shadow yang lebih lembut (soft diffuse)
+function MiniDashboardMock({ reducedMotion }: { reducedMotion: boolean }) {
+  return (
+    <motion.div
+      className="relative mx-auto w-full max-w-[1100px]"
+      initial={reducedMotion ? undefined : { y: 20, opacity: 0 }}
+      animate={reducedMotion ? undefined : { y: 0, opacity: 1 }}
+      // Animasi floating (naik turun perlahan) untuk kesan elegan/hidup
+      whileInView={
+        reducedMotion
+          ? undefined
+          : {
+              y: [0, -15, 0],
+              transition: {
+                duration: 6,
+                repeat: Infinity,
+                ease: "easeInOut",
+              },
+            }
+      }
+      transition={{ duration: 0.8, ease: easePremium }}
+    >
+      {/* Container Gambar dengan Border Halus & Shadow Premium */}
+      <div className="group relative overflow-hidden rounded-2xl bg-white shadow-[0_40px_80px_-20px_rgba(0,0,0,0.08)] ring-1 ring-black/5">
+        <Image
+          src="/arah-ai.png"
+          alt="Arah AI Dashboard Interface"
+          width={1296}
+          height={830}
+          className="h-auto w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+          priority
+          quality={95}
+        />
+
+        {/* Inner Glow / Sheen Effect (Sangat halus) */}
+        <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-black/5" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent opacity-50 mix-blend-overlay" />
+      </div>
+
+      {/* Dekorasi: Glow di belakang gambar (Ambient light) */}
+      <div className="absolute -inset-4 -z-10 scale-95 blur-3xl opacity-40 bg-gradient-to-t from-gray-200 to-transparent" />
+    </motion.div>
+  );
+}
+
 export function Hero({ locale, onPrimaryAction, onSecondaryAction }: Props) {
   const copy = getCopy(locale);
   const reducedMotion = useReducedMotion() ?? false;
 
+  // Stagger animation yang lebih lambat dan elegan
+  const parent = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15, delayChildren: 0.2 },
+    },
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: easePremium },
+    },
+  };
+
   return (
-    <section className="relative overflow-hidden">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-[-120px] h-[380px] w-[640px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(0,0,0,0.08)_0%,rgba(0,0,0,0)_60%)] blur-2xl" />
-        <div className="absolute bottom-[-160px] right-[-120px] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(0,0,0,0.06)_0%,rgba(0,0,0,0)_62%)] blur-2xl" />
-      </div>
+    <section className="relative isolate overflow-hidden bg-white pb-16 pt-14 sm:pb-20">
+      {/* --- BACKGROUND ELEGAN --- */}
+      {/* Grid Pattern Halus: Memberikan kesan "Struktur/Akademik" */}
+      <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+      
+      {/* Radial Gradient lembut di atas */}
+      <div className="absolute left-0 top-0 -z-10 h-[500px] w-full bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(120,119,198,0.1),rgba(255,255,255,0))]" />
 
-      <div className="container-px mx-auto max-w-7xl pt-16 sm:pt-20 md:pt-24">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <motion.div
-          initial={reducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
-          whileInView={reducedMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={
-            reducedMotion
-              ? { duration: 0 }
-              : { duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }
-          }
-          className="mx-auto max-w-3xl"
+          variants={parent}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="mx-auto grid max-w-6xl gap-16 lg:grid-cols-12 lg:items-center"
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-[color:var(--border)] bg-white px-3 py-1 text-xs text-neutral-600 shadow-soft">
-            <span className="h-1.5 w-1.5 rounded-full bg-black" />
-            <span className="font-medium tracking-tight">{copy.nav.tagline}</span>
+          {/* --- LEFT CONTENT --- */}
+          <div className="lg:col-span-6 lg:pr-8">
+            {/* Badge Kecil di atas Judul (Opsional, menambah detail) */}
+            <motion.div variants={item} className="mb-6 flex">
+              <div className="relative rounded-full px-3 py-1 text-xs font-medium leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
+                Layanan Akademik Generasi Baru
+              </div>
+            </motion.div>
+
+            <motion.h1
+              variants={item}
+              className="text-balance text-5xl font-semibold tracking-tight text-neutral-950 sm:text-6xl lg:text-7xl"
+            >
+              Strategi Akademik, <br />
+              <span className="text-gray-500">Ternavigasi Otomatis.</span>
+            </motion.h1>
+
+            <motion.p
+              variants={item}
+              className="mt-6 text-lg leading-8 text-gray-600 font-light"
+            >
+              Hubungkan SIAKAD. Biarkan <strong>arah.ai</strong> menyusun KRS tanpa bentrok, 
+              menyelaraskan mata kuliah dengan karier, dan memantau risiko akademik Anda.
+            </motion.p>
+
+            <motion.div
+              variants={item}
+              className="mt-10 flex items-center gap-x-6"
+            >
+              {/* Primary Button: Minimalist Solid */}
+              <button
+                type="button"
+                onClick={onPrimaryAction}
+                className="group relative flex h-11 items-center justify-center rounded-full bg-neutral-900 px-8 text-sm font-medium text-white transition-all hover:bg-neutral-800 hover:ring-2 hover:ring-neutral-900 hover:ring-offset-2"
+              >
+                Minta Akses
+                <svg
+                  className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </button>
+
+              {/* Secondary Button: Clean Text/Ghost */}
+              <button
+                type="button"
+                onClick={onSecondaryAction}
+                className="text-sm font-semibold leading-6 text-gray-900 transition-colors hover:text-gray-600"
+              >
+                Lihat Cara Kerja <span aria-hidden="true">→</span>
+              </button>
+            </motion.div>
+
+            {/* Social Proof / Footer Text */}
+            <motion.div
+              variants={item}
+              className="mt-10 border-t border-gray-100 pt-8"
+            >
+            </motion.div>
           </div>
 
-          <h1 className="mt-6 text-balance text-5xl font-semibold tracking-[-0.05em] text-black sm:text-6xl md:text-7xl">
-            <span className="bg-gradient-to-b from-black to-neutral-500 bg-clip-text text-transparent">
-              {copy.hero.headline}
-            </span>
-          </h1>
-
-          <p className="mt-5 max-w-2xl text-pretty text-lg leading-relaxed text-neutral-600 sm:text-xl">
-            {copy.hero.subheadline}
-          </p>
-
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <button
-              type="button"
-              onClick={onPrimaryAction}
-              className="inline-flex items-center justify-center rounded-full bg-black px-5 py-3 text-sm font-medium text-white shadow-glow transition hover:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-black/20"
-            >
-              {copy.hero.cta}
-            </button>
-            <button
-              type="button"
-              onClick={onSecondaryAction}
-              className="inline-flex items-center justify-center rounded-full border border-[color:var(--border)] bg-white px-5 py-3 text-sm font-medium text-black shadow-soft transition hover:bg-[color:var(--panel)] focus:outline-none focus:ring-2 focus:ring-black/10"
-            >
-              {copy.hero.secondary}
-            </button>
-          </div>
-
-          <div className="mt-12 rounded-3xl border border-[color:var(--border)] bg-[color:var(--panel)] p-5 shadow-soft sm:p-7">
-            <div className="grid gap-4 sm:grid-cols-3">
-              {copy.hero.cards.map((card) => (
-                <div key={card.label} className="rounded-2xl border border-black/10 bg-white p-5">
-                  <div className="text-xs font-medium text-neutral-600">{card.label}</div>
-                  <div className="mt-2 text-sm font-semibold tracking-tight">{card.value}</div>
-                </div>
-              ))}
-            </div>
+          {/* --- RIGHT MOCKUP --- */}
+          <div className="lg:col-span-6 lg:pt-8">
+             <MiniDashboardMock reducedMotion={reducedMotion} />
           </div>
         </motion.div>
       </div>

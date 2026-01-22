@@ -11,6 +11,7 @@ import { HowItWorks } from "./components/HowItWorks";
 import { FeatureGrid } from "./components/FeatureGrid";
 import { ChatSection } from "./components/ChatSection";
 import { FaqSection } from "./components/FaqSection";
+import { Problemv2 } from "./components/Problemv2";
 
 const STORAGE_KEY = "arah.ai:locale";
 
@@ -120,7 +121,7 @@ export default function Page() {
         />
 
         <ProblemSection locale={locale} />
-
+<Problemv2 locale={locale} />
         <HowItWorks locale={locale} />
 
         <div id="modules">
